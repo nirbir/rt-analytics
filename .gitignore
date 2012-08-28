@@ -1,0 +1,15 @@
+.idea/
+common/target/
+feeder/target/
+processor/target/
+*.iml
+*.class
+*.jar
+*.war
+*.ear
+.DS_Store
+.project
+.settings
+*/.project
+*/.classpath
+*/.settings
