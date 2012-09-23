@@ -16,13 +16,6 @@
 
 package org.openspaces.bigdata.processor;
 
-import static org.springframework.transaction.annotation.Isolation.READ_COMMITTED;
-import static org.springframework.transaction.annotation.Propagation.REQUIRED;
-
-import java.util.logging.Logger;
-
-import javax.annotation.Resource;
-
 import org.openspaces.bigdata.processor.events.TokenCounter;
 import org.openspaces.core.GigaMap;
 import org.openspaces.events.EventDriven;
@@ -35,13 +28,18 @@ import org.openspaces.events.polling.receive.MultiTakeReceiveOperationHandler;
 import org.openspaces.events.polling.receive.ReceiveOperationHandler;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+import java.util.logging.Logger;
+
+import static org.springframework.transaction.annotation.Propagation.REQUIRED;
+
 /**
  * Polling event container polling for {@link TokenCounter} instances and updating atomic counters accordingly.
  * 
  * @author dotan
  */
 @EventDriven
-@Polling(gigaSpace = "gigaSpace", concurrentConsumers = 2, maxConcurrentConsumers = 2, receiveTimeout = 1000)
+@Polling(gigaSpace = "gigaSpace", concurrentConsumers = 1, maxConcurrentConsumers = 1, receiveTimeout = 1000)
 @TransactionalEvent
 public class GlobalTokenCounter {
     private static final Logger log = Logger.getLogger(GlobalTokenCounter.class.getName());
@@ -70,7 +68,7 @@ public class GlobalTokenCounter {
     }
 
     @SuppressWarnings("unchecked")
-    @Transactional(readOnly = false, propagation = REQUIRED, isolation = READ_COMMITTED)
+    @Transactional(readOnly = false, propagation = REQUIRED)
     private void incrementLocalToken(String token, Integer count) {
         log.info("incrementing local token " + token + " by " + count);
         Integer globalCount = gigaMap.containsKey(token) ? (Integer) gigaMap.get(token) + count : count;

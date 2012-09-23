@@ -16,25 +16,13 @@
 
 package org.openspaces.bigdata.feeder;
 
-import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.annotation.Resource;
-
-import org.openspaces.core.GigaSpace;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataAccessException;
-import org.springframework.social.twitter.api.Tweet;
-import org.springframework.social.twitter.api.impl.TwitterTemplate;
-import org.springframework.stereotype.Component;
-
-import com.gigaspaces.document.DocumentProperties;
-import com.gigaspaces.document.SpaceDocument;
 
 /**
  * A bean that schedules Runnable tasks periodically
